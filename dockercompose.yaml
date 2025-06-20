@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins
     container_name: jenkins
     ports:
       - "8080:8080"
@@ -13,7 +13,7 @@ services:
       - CI-CD
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     container_name: prometheus
     ports:
       - "9090:9090"
@@ -24,7 +24,7 @@ services:
       - CI-CD
 
   sonarqube:
-    image: sonarqube:lts
+    image: sonarqube
     container_name: sonarqube
     ports:
       - "9000:9000"
