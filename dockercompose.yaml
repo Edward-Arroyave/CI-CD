@@ -20,10 +20,8 @@ services:
       - "9090:9090"
     volumes:
       - ./prometheus:/prometheus
-      - prometheus_data:/prometheus
     networks:
       - CI-CD
-
   sonarqube:
     image: sonarqube
     container_name: sonarqube
