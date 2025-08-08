@@ -7,38 +7,12 @@ services:
     ports:
       - "8080:8080"
       - "50000:50000"
+    environment:
+      - TZ=America/Bogota
     volumes:
       - jenkins_data:/var/jenkins_home
     networks:
       - CI-CD
-
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    ports:
-      - "9090:9090"
-    volumes:
-      - ./prometheus:/prometheus
-      - prometheus_data:/prometheus
-    networks:
-      - CI-CD
-
-  sonarqube:
-    image: sonarqube
-    container_name: sonarqube
-    ports:
-      - "9000:9000"
-    volumes:
-      - sonarqube_data:/opt/sonarqube/data
-    networks:
-      - CI-CD
-    environment:
-      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
-
-volumes:
-  jenkins_data:
-  prometheus_data:
-  sonarqube_data:
 
 networks:
   CI-CD:
