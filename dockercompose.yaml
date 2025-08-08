@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.7"
 
 services:
   jenkins:
@@ -11,6 +11,7 @@ services:
       - TZ=America/Bogota
     volumes:
       - jenkins_data:/var/jenkins_home
+      - /home/edwardarroyave/RESPOSITORIOS:/home/jenkins/RESPOSITORIOS
     networks:
       - CI-CD
 
