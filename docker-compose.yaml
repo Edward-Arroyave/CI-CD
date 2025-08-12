@@ -17,16 +17,18 @@ services:
              exec su jenkins -c '/usr/local/bin/jenkins.sh'"
     networks:
       - CI-CD
-    prometheus:
-        image: prom/prometheus
-        container_name: prometheus
-        ports:
-          - "9090:9090"
-        volumes:
-          - ./prometheus:/prometheus
-          - prometheus_data:/prometheus
-        networks:
-          - CI-CD
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus:/prometheus
+      - prometheus_data:/prometheus
+    networks:
+      - CI-CD
+
 networks:
   CI-CD:
     driver: bridge
