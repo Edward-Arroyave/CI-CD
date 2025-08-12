@@ -24,10 +24,11 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - prometheus_data:/prometheus
     networks:
       - CI-CD
+
 
 networks:
   CI-CD:
