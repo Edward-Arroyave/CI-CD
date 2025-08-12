@@ -2,7 +2,7 @@ FROM jenkins/jenkins:lts
 
 USER root
 
-# Instalar Docker CLI (no el daemon)
+# Instalar Docker CLI (no daemon)
 RUN apt-get update && \
     apt-get install -y docker.io && \
     apt-get clean && \
@@ -10,7 +10,6 @@ RUN apt-get update && \
 
 # Crear grupo docker si no existe y agregar el usuario jenkins
 RUN groupadd -f docker && \
-    usermod -aG docker jenkins && \
-    chown root:docker /var/run/docker.sock
+    usermod -aG docker jenkins
 
 USER jenkins
