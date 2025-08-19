@@ -3,12 +3,14 @@ services:
     build: .
     container_name: jenkins
     ports:
-      - "8080:8080"
+      - "8080:8080"   
       - "50000:50000"
     environment:
       - TZ=America/Bogota
+      - JENKINS_OPTS=--httpPort=-1 --httpsPort=8080 --httpsKeyStore=/var/jenkins_home/jenkins.jks --httpsKeyStorePassword=tu_password
     volumes:
       - jenkins_data:/var/jenkins_home
+      - /home/edwardarroyave/certs/jenkins.jks:/var/jenkins_home/jenkins.jks:ro
       - /home/edwardarroyave/RESPOSITORIOS:/home/jenkins/RESPOSITORIOS
       - /var/run/docker.sock:/var/run/docker.sock
     user: root
@@ -28,7 +30,6 @@ services:
       - prometheus_data:/prometheus
     networks:
       - CI-CD
-
 
 networks:
   CI-CD:
