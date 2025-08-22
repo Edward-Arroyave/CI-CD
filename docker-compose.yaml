@@ -3,16 +3,13 @@ services:
     build: .
     container_name: jenkins
     ports:
-      - "8080:8080"      # HTTP (opcional)
-      - "8443:8443"      # HTTPS
+      - "8080:8080"     
       - "50000:50000"
     environment:
       - TZ=America/Bogota
-      - JENKINS_OPTS=--httpsPort=8443 --httpsKeyStore=/home/jenkins/jenkins_keystore.jks --httpsKeyStorePassword=mypassword
     volumes:
       - jenkins_data:/var/jenkins_home
       - /home/edwardarroyave/RESPOSITORIOS:/home/jenkins/RESPOSITORIOS
-      - /home/jenkins/jenkins_keystore.jks:/home/jenkins/jenkins_keystore.jks
       - /var/run/docker.sock:/var/run/docker.sock
     user: root
     entrypoint: >
