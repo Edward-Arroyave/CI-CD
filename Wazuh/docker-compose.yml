@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  wazuh.manager:
+    image: wazuh/wazuh-manager:4.7.0
+    container_name: wazuh.manager
+    restart: always
+    ports:
+      - "${WAZUH_MANAGER_PORT_UDP}:${WAZUH_MANAGER_PORT_UDP}/udp"
+      - "${WAZUH_MANAGER_PORT_TCP}:${WAZUH_MANAGER_PORT_TCP}"
+    environment:
+      - WAZUH_MANAGER_PASSWORD=${WAZUH_MANAGER_PASSWORD}
+    volumes:
+      - wazuh_manager_data:/var/ossec/data
+    networks:
+      - wazuh
+
+  wazuh.indexer:
+    image: wazuh/wazuh-indexer:4.7.0
+    container_name: wazuh.indexer
+    restart: always
+    environment:
+      - OPENSEARCH_JAVA_OPTS=${INDEXER_JAVA_OPTS}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - wazuh_indexer_data:/var/lib/wazuh-indexer
+    networks:
+      - wazuh
+
+  wazuh.dashboard:
+    image: wazuh/wazuh-dashboard:4.7.0
+    container_name: wazuh.dashboard
+    restart: always
+    ports:
+      - "${WAZUH_DASHBOARD_PORT}:${WAZUH_DASHBOARD_PORT}"
+    environment:
+      - INDEXER_URL=https://wazuh.indexer:9200
+      - WAZUH_API_USER=${WAZUH_API_USER}
+      - WAZUH_API_PASSWORD=${WAZUH_API_PASSWORD}
+    depends_on:
+      - wazuh.indexer
+    networks:
+      - wazuh
+
+networks:
+  wazuh:
+    driver: bridge
+
+volumes:
+  wazuh_manager_data:
+  wazuh_indexer_data:
