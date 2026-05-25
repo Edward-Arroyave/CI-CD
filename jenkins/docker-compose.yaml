@@ -1,5 +1,3 @@
-
-
 services:
   jenkins:
     build: .
@@ -10,7 +8,7 @@ services:
     environment:
       - TZ=America/Bogota
     volumes:
-      - jenkins_data:/var/jenkins_home
+      - ci-cd_jenkins_data:/var/jenkins_home
     user: root
     networks:
       - CI-CD
@@ -24,7 +22,7 @@ services:
       POSTGRES_DB: sonarqube
       TZ: America/Bogota
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ci-cd_postgres_data:/var/lib/postgresql/data
     networks:
       - CI-CD
 
@@ -41,9 +39,9 @@ services:
       SONAR_JDBC_PASSWORD: sonar
       SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
     volumes:
-      - sonarqube_data:/opt/sonarqube/data
-      - sonarqube_extensions:/opt/sonarqube/extensions
-      - sonarqube_logs:/opt/sonarqube/logs
+      - ci-cd_sonarqube_data:/opt/sonarqube/data
+      - ci-cd_sonarqube_extensions:/opt/sonarqube/extensions
+      - ci-cd_sonarqube_logs:/opt/sonarqube/logs
     networks:
       - CI-CD
 
@@ -54,20 +52,29 @@ services:
       - "9090:9090"
     volumes:
       - /home/edwardarroyave/CI-CD/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus_data:/prometheus
+      - ci-cd_prometheus_data:/prometheus
     networks:
       - CI-CD
 
-# Redes compartidas
 networks:
   CI-CD:
     driver: bridge
 
-# Volúmenes persistentes
 volumes:
-  jenkins_data:
-  sonarqube_data:
-  sonarqube_extensions:
-  sonarqube_logs:
-  postgres_data:
-  prometheus_data:
+  ci-cd_jenkins_data:
+    external: true
+
+  ci-cd_postgres_data:
+    external: true
+
+  ci-cd_sonarqube_data:
+    external: true
+
+  ci-cd_sonarqube_extensions:
+    external: true
+
+  ci-cd_sonarqube_logs:
+    external: true
+
+  ci-cd_prometheus_data:
+    external: true
